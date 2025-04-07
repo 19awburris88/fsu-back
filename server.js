@@ -12,7 +12,7 @@ const professorsRoutes = require('./routes/professors');
 const adminsRoutes = require('./routes/admin'); // Corrected path
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: /localhost/ }));
 app.use(express.json());
 
 // Use routes
