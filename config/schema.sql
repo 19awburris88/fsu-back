@@ -15,6 +15,8 @@ CREATE TABLE professors (
     department_id INTEGER REFERENCES departments(id) ON DELETE SET NULL
 );
 
+CREATE INDEX idx_professors_department_id ON professors (department_id);
+
 CREATE TABLE admins (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
