@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Add professor (protected)
+// Add professor
 router.post('/', authenticateToken, async (req, res) => {
     const { name, bio, profile_image_url, email, department_id } = req.body;
     try {
@@ -38,7 +38,7 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Update professor (protected)
+// Update professor
 router.patch('/:id', authenticateToken, async (req, res) => {
     const { name, bio, profile_image_url, email, department_id } = req.body;
     try {
@@ -53,7 +53,7 @@ router.patch('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Delete professor (protected)
+// Delete professor
 router.delete('/:id', authenticateToken, async (req, res) => {
     try {
         const result = await pool.query('DELETE FROM professors WHERE id = $1 RETURNING *', [req.params.id]);

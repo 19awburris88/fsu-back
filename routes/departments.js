@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Add department (protected)
+// Add department
 router.post('/', authenticateToken, async (req, res) => {
     const { name, description, image_url, contact_info } = req.body;
     try {
@@ -39,7 +39,7 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Update department (protected)
+// Update department
 router.patch('/:id', authenticateToken, async (req, res) => {
     const { name, description, image_url, contact_info } = req.body;
     try {
@@ -54,7 +54,7 @@ router.patch('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Delete department (protected)
+// Delete department
 router.delete('/:id', authenticateToken, async (req, res) => {
     try {
         const result = await pool.query('DELETE FROM departments WHERE id = $1 RETURNING *', [req.params.id]);

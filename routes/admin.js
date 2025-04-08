@@ -7,14 +7,14 @@ const rateLimit = require('express-rate-limit');
 
 // Configure rate limiting
 const loginLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour window
-    max: 5, // Max 5 login attempts per hour per IP
+    windowMs: 60 * 60 * 1000,
+    max: 5,
     message: 'Too many login attempts from this IP, please try again after an hour',
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    standardHeaders: true,
+    legacyHeaders: false,
 });
 
-// Store valid tokens (for invalidation)
+// Store valid tokens
 let validTokens = [];
 
 // Register
