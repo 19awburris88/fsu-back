@@ -8,7 +8,7 @@ require('dotenv').config();
 // Import routes
 const departmentsRoutes = require('./routes/departments');
 const professorsRoutes = require('./routes/professors');
-const adminsRoutes = require('./routes/admin'); // Corrected path
+const adminsRoutes = require('./routes/admin');
 
 // Middleware
 app.use(cors({ origin: /localhost/ }));
