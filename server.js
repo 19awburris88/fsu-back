@@ -1,29 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
-const port = process.env.PORT || 3000;
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const port = process.env.PORT
 
-// Load environment variables
-require('dotenv').config();
+const prisma = require('./prisma')
 
-// Import routes
-const departmentsRoutes = require('./routes/departments');
-const professorsRoutes = require('./routes/professors');
-const adminsRoutes = require('./routes/admin'); // Corrected path
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Use routes
-app.use('/departments', departmentsRoutes);
-app.use('/professors', professorsRoutes);
-app.use('/admins', adminsRoutes);
-
-app.get('/', (req, res) => {
-    res.send('FSU API is running!');
-});
+app.use(express.json())
+app.use(require('morgan')('dev'))
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+    console.log(`listening on port ${port}`);
+})
