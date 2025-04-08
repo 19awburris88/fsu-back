@@ -11,7 +11,6 @@ const pool = new Pool({
 pool.connect((err, client, done) => {
     if (err) {
         console.error('Database connection error:', err.message, err.stack);
-        // Log the error to a file or external service in a production environment
     } else {
         console.log('Connected to PostgreSQL');
     }

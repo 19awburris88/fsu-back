@@ -45,7 +45,6 @@ router.post('/login', loginLimiter, async (req, res) => {
 
         const token = jwt.sign({ id: admin.id, username: admin.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Store the token in the validTokens array
         validTokens.push(token);
 
         res.json({ token });
