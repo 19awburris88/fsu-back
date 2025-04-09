@@ -4,7 +4,7 @@ const prisma = new PrismaClient({
 });
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET || "ugh89thLINDAq";
+const JWT_SECRET = process.env.JWT_SECRET || "7hjsd87GF%j7ghKh4dIklj";
 
 // --- AUTH ---
 async function registerAdmin(req, res) {
