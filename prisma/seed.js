@@ -1,18 +1,25 @@
 const prisma = require("../prisma");
 
 const seed = async () => {
+  const createDepartments = async () => {
+    const departments = [
+      {name: 'Fullstack Development', desc: 'Make websites', img: 'image of Fullstack', email: 'fullstack@academy.com'},
+      {name: 'Cybersecurity', desc: 'Protect websites', img: 'image of Cybersec', email: 'cybersecurity@fullstack.com'}
+    ];
+    await prisma.department.createMany({ data: departments })
+  };
+  
   const createProfessors = async () => {
-    const professors = [];
+    const professors = [
+      {name: 'Mark Lawrence', bio: 'Instructor PT', img: 'image of Mark', email: 'mark@email.com', departmentId: 1},
+      {name: 'Madi Bromfield', bio: 'Teacher Assistant', img: 'image of Madi', email: 'madi@email.com', departmentId: 1},
+      {name: 'Pawan Benjamin', bio: 'Learner Experience Manager', img: 'image of Pawan', email: 'pawan@email.com', departmentId: 1}
+    ];
     await prisma.professor.createMany({ data: professors })
   };
 
-  const createDepartments = async () => {
-    const departments = [];
-    await prisma.department.createMany({ data: departments })
-  };
-
-  await createProfessors();
   await createDepartments();
+  await createProfessors();
 };
 
 seed()

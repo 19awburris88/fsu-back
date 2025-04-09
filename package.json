@@ -19,6 +19,6 @@
     "start:dev": "nodemon server.js"
   },
   "prisma": {
-    "seed": "node prisma/server.js"
+    "seed": "node prisma/seed.js"
   }
 }
