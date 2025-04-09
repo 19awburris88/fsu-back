@@ -1,0 +1,39 @@
+{
+  "name": "fsu-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/19awburris88/fsu-back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/19awburris88/fsu-back/issues"
+  },
+  "homepage": "https://github.com/19awburris88/fsu-back#readme",
+  "dependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "@prisma/client": "^6.6.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.14.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prisma": "^6.6.0"
+  }
+}
