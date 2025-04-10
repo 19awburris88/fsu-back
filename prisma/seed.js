@@ -18,8 +18,17 @@ const seed = async () => {
     await prisma.professor.createMany({ data: professors })
   };
 
+  const createAdmins = async () => {
+    const admins = [
+      {email: 'fernando@gmail.com', password: 'password'},
+      {email: 'lincoln@gmail.com', password: 'woof'}
+    ];
+    await prisma.admin.createMany({ data: admins})
+  }
+
   await createDepartments();
   await createProfessors();
+  await createAdmins();
 };
 
 seed()

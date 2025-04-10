@@ -134,6 +134,12 @@ exports.Prisma.ProfessorScalarFieldEnum = {
   departmentId: 'departmentId'
 };
 
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -147,7 +153,8 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Department: 'Department',
-  Professor: 'Professor'
+  Professor: 'Professor',
+  Admin: 'Admin'
 };
 
 /**
