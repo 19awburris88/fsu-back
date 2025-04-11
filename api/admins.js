@@ -1,4 +1,7 @@
-const jsonwebtoken = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const uuid = require('uuid')
+const jwt = require('jsonwebtoken')
+const secret = process.env.JWT_SECRET
 const router = require("express").Router();
 module.exports = router;
 
@@ -13,8 +16,22 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-// register
-router.post('/', async (req, res, next) => {
+// functions
+const createAdmin = async ({ email, password }) => {
+    const hashPassword = bcrypt.hash(password, 10);
+
+    const newAdmin = await prisma.admin.create({ data: { id: uuid.v4(), email, password: hashPassword}})
+    return newAdmin
+}
+
+const giveTokenToNewAdmin = async ({ email, password }) => {
+    const admin = await createAdmin({ email, password })
+    const token = await jwt.sign({ id: admin.id }, jwt)
+    return [ token ];
+}
+
+// routing
+router.post('/register', async (req, res, next) => {
     try {
         
     } catch (error) {
@@ -22,12 +39,11 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-// login
-router.post('/:id', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     try {
         
     } catch (error) {
-        
+        next(error)
     }
 })
 

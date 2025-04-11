@@ -6,7 +6,7 @@ const port = process.env.PORT
 const prisma = require('./prisma')
 
 const cors = require("cors");
-app.use(cors({ origin: "https://localhost" }));
+app.use(cors({ origin: /localhost/ }));
 
 app.use(express.json())
 app.use(require('morgan')('dev'))
