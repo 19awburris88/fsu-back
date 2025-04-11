@@ -1,7 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../prisma")
 const { faker } = require("@faker-js/faker");
+// const faker = require("faker");
 
-const prisma = new PrismaClient();
 
 async function main() {
   
@@ -12,7 +12,7 @@ async function main() {
       data: {
         name: faker.company.name(),
         description: faker.lorem.paragraph(),
-        bannerImage: faker.image.imageUrl(),
+        // bannerImage: faker.image.imageUrl(),
         contactInfo: faker.internet.email()
       }
     });
@@ -34,14 +34,14 @@ async function main() {
 
   // Create 1 default admin
   const bcrypt = require("bcrypt");
-  const hashedPassword = await bcrypt.hash("admin123", 10);
-
+  const adminPassword = process.env.ADMIN_PASSWORD || require("faker").internet.password();
   await prisma.admin.create({
     data: {
       username: "admin",
-      password: hashedPassword
-    }
+      password: await bcrypt.hash(adminPassword, 10),
+    },
   });
+  console.log(`Admin created with password: ${adminPassword}`);
 
   console.log("Database seeded successfully 🚀");
 }

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET || "ugh89thLINDAq";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error("JWT_SECRET not defined");
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];

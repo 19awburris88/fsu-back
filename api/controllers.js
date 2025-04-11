@@ -4,7 +4,9 @@ const prisma = new PrismaClient({
 });
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET || "7hjsd87GF%j7ghKh4dIklj";
+const Joi = require("joi");
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error("JWT_SECRET not defined");
 
 // --- AUTH ---
 async function registerAdmin(req, res) {
@@ -75,14 +77,12 @@ async function getDepartments(req, res) {
   
   async function updateDepartment(req, res) {
     const { id } = req.params;
-    const { name, description, bannerImage } = req.body;
-  
+    const { name, description, bannerImage, contactInfo } = req.body;
     try {
       const updatedDepartment = await prisma.department.update({
         where: { id: Number(id) },
-        data: { name, description, bannerImage }
+        data: { name, description, bannerImage, contactInfo },
       });
-  
       res.json(updatedDepartment);
     } catch (err) {
       res.status(500).json({ error: "Unable to update department" });
@@ -90,16 +90,23 @@ async function getDepartments(req, res) {
   }
   
   async function deleteDepartment(req, res) {
+    const { id } = req.params;
     try {
-      await prisma.department.delete({
-        where: { id: Number(req.params.id) }
+      const department = await prisma.department.findUnique({
+        where: { id: Number(id) },
       });
-  
+      if (!department) {
+        return res.status(404).json({ error: "Department not found" });
+      }
+      await prisma.department.delete({
+        where: { id: Number(id) },
+      });
       res.json({ message: "Department deleted" });
     } catch (err) {
+      console.error("Error deleting department:", err);
       res.status(500).json({ error: "Unable to delete department" });
     }
-  }  
+  }
 
 // --- PROFESSORS ---
 async function getProfessors(req, res) {
@@ -128,41 +135,34 @@ async function getProfessors(req, res) {
     }
   }
   
-  async function createProfessor(req, res) {
-    const { name, email, bio, profileImage, departmentId } = req.body;
-  
-    // Check if required fields are provided
-    if (!name || !email) {
-      return res.status(400).json({ error: "Name and email are required" });
+async function createProfessor(req, res) {
+  const schema = Joi.object({
+    name: Joi.string().min(2).required(),
+    email: Joi.string().email().required(),
+    bio: Joi.string().allow("").optional(),
+    profileImage: Joi.string().uri().allow("").optional(),
+    departmentId: Joi.number().integer().allow(null).optional(),
+  });
+  const { error, value } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  const { name, email, bio, profileImage, departmentId } = value;
+  if (departmentId) {
+    const department = await prisma.department.findUnique({ where: { id: departmentId } });
+    if (!department) {
+      return res.status(400).json({ error: "Department not found" });
     }
-  
-    // Check if department exists
-    if (departmentId) {
-      const departmentExists = await prisma.department.findUnique({
-        where: { id: departmentId },
-      });
-      if (!departmentExists) {
-        return res.status(404).json({ error: "Department not found" });
-      }
-    }
-  
-    try {
-      const professor = await prisma.professor.create({
-        data: {
-          name,
-          email,
-          bio,
-          profileImage,
-          departmentId,
-        },
-      });
-  
-      res.status(201).json(professor);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Unable to create professor" });
-    }
-  }  
+  }
+  try {
+    const professor = await prisma.professor.create({
+      data: { name, email, bio, profileImage, departmentId },
+    });
+    res.status(201).json(professor);
+  } catch (err) {
+    res.status(500).json({ error: "Unable to create professor" });
+  }
+}
   
   async function updateProfessor(req, res) {
     const { id } = req.params;
